@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>VHungITM - Switch</title>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+			rel="stylesheet"
+		/>
+
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: 'Inter';
+				font-size: 14px;
+			}
+
+			.switch-container {
+				width: fit-content;
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				cursor: pointer;
+
+				--switch-background: #e4e4e4;
+				--switch-active-background: #6bd55c;
+				--switch-width: 35px;
+				--switch-height: 22px;
+				--switch-padding: 2px;
+				--switch-button-width: calc(
+					var(--switch-height) - var(--switch-padding) * 2
+				);
+			}
+
+			.switch-container input {
+				display: none;
+			}
+
+			.switch-container .switch-label {
+				font-size: 14px;
+				font-weight: 400;
+				cursor: pointer;
+			}
+
+			.switch-container .switch {
+				width: var(--switch-width);
+				height: var(--switch-height);
+				position: relative;
+				background: var(--switch-background);
+				border-radius: 16px;
+				overflow: hidden;
+				transition: all 0.2s ease;
+			}
+
+			.switch-container .switch::before {
+				width: var(--switch-button-width);
+				height: var(--switch-button-width);
+				position: absolute;
+				left: var(--switch-padding);
+				top: var(--switch-padding);
+				border-radius: 100%;
+				background: white;
+				content: '';
+				box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 4px;
+				transition: all 0.2s ease;
+			}
+
+			/* Active */
+			.switch-container input:checked ~ .switch {
+				background: var(--switch-active-background);
+			}
+
+			.switch-container input:checked ~ .switch::before {
+				left: calc(
+					100% - var(--switch-padding) - var(--switch-button-width)
+				);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="switch-container">
+			<input type="checkbox" checked />
+			<div class="switch"></div>
+			<label class="switch-label">ON</label>
+		</div>
+
+		<script>
+			const switchContainerClassName = 'switch-container';
+			const switchLabelClassName = 'switch-label';
+			const onLabel = 'ON';
+			const offLabel = 'OFF';
+
+			const switchContainerEls = Object.values(
+				document.getElementsByClassName(switchContainerClassName)
+			);
+
+			switchContainerEls.forEach(switchContainerEl => {
+				const switchInputEl = switchContainerEl.querySelector('input');
+				const switchLabelEl = switchContainerEl.querySelector(
+					`.${switchLabelClassName}`
+				);
+
+				const onChangeSwitch = e => {
+					const checked = e.target.checked;
+					switchLabelEl.innerText = checked ? onLabel : offLabel;
+				};
+
+				switchInputEl.addEventListener('change', onChangeSwitch);
+				switchContainerEl.addEventListener('click', e =>
+					switchInputEl.click()
+				);
+			});
+		</script>
+	</body>
+</html>
